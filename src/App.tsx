@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import Grid from '@material-ui/core/Grid';
 
@@ -27,17 +27,36 @@ const style3 = {
     padding: '30px',
 };
 
-
+const APP_KEY = "PokerTools"
 function App() {
+  const appState = localStorage.getItem(APP_KEY)
+  const {A, B} = appState ? JSON.parse(appState) : {
+    A: 50000,
+    B: 50000,
+  }
+
+
+
   const [flag, setFlag] = useState<boolean>(false);
   const [pool, setPool] = useState<number>(0);
   const [betValue, setBetValue] = useState<number>(0);
-  const [APoint, setAPoint] = useState<number>(50000);
-  const [BPoint, setBPoint] = useState<number>(50000);
+  const [APoint, setAPoint] = useState<number>(A);
+  const [BPoint, setBPoint] = useState<number>(B);
+  const [history, setHistory] = useState<Array<string>>([]);
+
+  const check = () => {
+    const User = !flag? 'A': 'B'
+    const s = User + " checked.";
+    setHistory(history.concat(s))
+    alert(s)
+    setFlag(!flag)
+  }
 
   const bet = () => {
     const User = !flag? 'A': 'B'
-    alert(User + " bet " + betValue);
+    const s = User + " bet " + betValue;
+    setHistory(history.concat(s))
+    alert(s);
     if(User === 'A'){
       setAPoint(APoint - betValue);
     }else{
@@ -51,7 +70,9 @@ function App() {
   
   const fold = () => {
     const User = flag? 'A': 'B';
-    alert(`Congratsration! \n${User} wins ${pool}!`);
+    const s = `Congratsration! \n${User} wins ${pool}!`
+    setHistory(history.concat(s))
+    alert(s);
     if(User === 'A'){
       setAPoint(APoint + pool);
     }else{
@@ -59,7 +80,12 @@ function App() {
     }
     setPool(0);
     setBetValue(0);
+    console.log(history)
   }
+
+  useEffect(() => {
+    localStorage.setItem(APP_KEY, JSON.stringify({'A': APoint, 'B': BPoint, 'History': history}))
+  }, [APoint, BPoint, history])
 
   return (
     <div className="App">
@@ -86,7 +112,7 @@ function App() {
       <br></br>
       <Grid container alignItems="center" justify="center" >
         <Grid item xs={2}>
-          <Button variant="contained" color="primary" onClick={() => setFlag(!flag)}>
+          <Button variant="contained" color="primary" onClick={() => check()}>
             Check
           </Button>
         </Grid>
