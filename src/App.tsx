@@ -28,6 +28,7 @@ function App() {
 
 
   const [flag, setFlag] = useState<boolean>(false);
+  const [BTN, setBTN] = useState<boolean>(false);
   const [pool, setPool] = useState<number>(0);
   const [betValue, setBetValue] = useState<number>(0);
   const [APoint, setAPoint] = useState<number>(A);
@@ -86,6 +87,22 @@ function App() {
     setPool(0);
     setBetValue(0);
     console.log(history)
+    startNewRound()
+  }
+
+  const startNewRound = () => {
+    setBTN(!BTN)
+    const User = BTN ? 'A' : 'B';
+    if (User === 'A') {
+      setAPoint(APoint - 1000);
+      setBPoint(BPoint - 500);
+      setPool(1500)
+    } else {
+      setAPoint(APoint - 500);
+      setBPoint(BPoint - 1000);
+      setPool(1500)    
+    }
+    alert(`BTN is ${User}.`)
   }
 
   useEffect(() => {
@@ -101,6 +118,9 @@ function App() {
         <Grid item xs={4} style={styleBase}>
           <Container >
             <List component="nav" aria-label="secondary mailbox folders" >
+              <ListItem>
+                <ListItemText primary={"BTN:  " + (!BTN ? 'A' : 'B')} />
+              </ListItem>
               <ListItem>
                 <ListItemText primary={"Now:  " + (!flag ? 'A' : 'B')} />
               </ListItem>
