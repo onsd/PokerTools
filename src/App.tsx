@@ -12,10 +12,10 @@ import TextField from '@material-ui/core/TextField';
 import './App.css';
 import { Container } from '@material-ui/core';
 
-const style1 = { background: "#66CDAA", padding: "20px" };
-const style2 = { background: "#AFEEEE", padding: "20px" };
+const styleUnSelected = { background: "#66CDAA", padding: "20px" };
+const styleBase = { background: "#AFEEEE", padding: "20px" };
 
-const style3 = { background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', padding: '30px' };
+const styleSelected = { background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', padding: '30px' };
 
 const APP_KEY = "PokerTools"
 function App() {
@@ -60,7 +60,7 @@ function App() {
 
   const fold = () => {
     const User = flag ? 'A' : 'B';
-    const s = `Congratsration! \n${User} wins ${pool}!`
+    const s = `${User} fold.\nCongratsration!\n${User} wins ${pool} !`
     setHistory(history.concat(s))
     alert(s);
     if (User === 'A') {
@@ -72,6 +72,13 @@ function App() {
     setBetValue(0);
     console.log(history)
   }
+  
+  const win = () => {
+    const User = !flag ? 'A' : 'B';
+    const s = `Congratsration!\n${User} wins ${pool}!`
+    setHistory(history.concat(s))
+    alert(s);
+  }
 
   useEffect(() => {
     localStorage.setItem(APP_KEY, JSON.stringify({ 'A': APoint, 'B': BPoint, 'History': history }))
@@ -80,10 +87,10 @@ function App() {
   return (
     <div className="App">
       <Grid container alignItems="center" justify="center">
-        <Grid item xs={4} style={flag === false ? style3 : style1} onClick={() => setFlag(!flag)}>
+        <Grid item xs={4} style={flag === false ? styleSelected : styleUnSelected} onClick={() => setFlag(!flag)}>
           {APoint}
         </Grid>
-        <Grid item xs={4} style={style2}>
+        <Grid item xs={4} style={styleBase}>
           <Container >
             <List component="nav" aria-label="secondary mailbox folders" >
               <ListItem>
@@ -95,7 +102,7 @@ function App() {
             </List>
           </Container>
         </Grid>
-        <Grid item xs={4} style={flag ? style3 : style1} onClick={() => setFlag(!flag)}>
+        <Grid item xs={4} style={flag ? styleSelected : styleUnSelected} onClick={() => setFlag(!flag)}>
           {BPoint}
         </Grid>
       </Grid>
@@ -114,6 +121,11 @@ function App() {
         <Grid item xs={2}>
           <Button variant="contained" color="inherit" onClick={() => fold()}>
             Fold
+          </Button>
+        </Grid>
+        <Grid item xs={2}>
+          <Button variant="contained" color="secondary" onClick={() => win()}>
+            Win
           </Button>
         </Grid>
       </Grid>
