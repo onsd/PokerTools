@@ -78,6 +78,14 @@ function App() {
     const s = `Congratsration!\n${User} wins ${pool}!`
     setHistory(history.concat(s))
     alert(s);
+    if (User === 'A') {
+      setAPoint(APoint + pool);
+    } else {
+      setBPoint(BPoint + pool);
+    }
+    setPool(0);
+    setBetValue(0);
+    console.log(history)
   }
 
   useEffect(() => {
