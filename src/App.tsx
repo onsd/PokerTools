@@ -25,8 +25,6 @@ function App() {
     B: 50000,
   }
 
-
-
   const [flag, setFlag] = useState<boolean>(false);
   const [BTN, setBTN] = useState<boolean>(false);
   const [pool, setPool] = useState<number>(0);
@@ -158,7 +156,7 @@ function App() {
         </Grid>
       </Grid>
       <br />
-      <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={e => setBetValue(parseInt(e.target.value))} />
+      <TextField id="outlined-basic" label="BetValue" variant="outlined" onChange={e => setBetValue(parseInt(e.target.value))} />
     </div>
   );
 }
