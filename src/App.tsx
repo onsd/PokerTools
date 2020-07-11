@@ -18,7 +18,7 @@ const styleBase = { background: "#AFEEEE", padding: "20px" };
 const styleSelected = { background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', padding: '30px' };
 
 const APP_KEY = "PokerTools"
-function App() {
+const App: React.FC = () => {
   const appState = localStorage.getItem(APP_KEY)
   const { A, B } = appState ? JSON.parse(appState) : {
     A: 50000,
